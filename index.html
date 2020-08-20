@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>ja_post.htm</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="noindex, nofollow" />
+	<script src="include/util.js" type="text/javascript"></script><!-- utility file of handy JS functions -->
+	<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script><!-- latest jQuery script -->
+	<link rel="stylesheet" type="text/css" href="include/styles.css" /><!-- optional stylesheet reference -->
+	<style type="text/css">
+		/* embedded style rules could go here */
+		form#myForm {
+			/*background-color:yellow;*/
+			padding-left: 5%;
+
+
+		}
+	</style>
+	<script type="text/javascript">
+		//the following attaches code to window.onload, the jQuery way!
+		$("document").ready(function(){
+
+			//hide additional question at first
+			$('#question2').hide();
+			$('#question3').hide();
+
+			//show question 2 when q1 is clicked
+			$('#question1').click(function(e){
+				$('#question2').slideDown();
+
+				//enables all input elements, turns on submit
+				$("input").prop("disabled",false);
+			});
+
+			//show question 3 when q2 is clicked
+			$('#question2').click(function(e){
+				$('#question3').slideDown();
+			});
+
+
+			$('#myForm').submit(function(e) {
+				e.preventDefault();
+
+				let mySize = $('input[name="size"]:checked').val();
+				let myFeel = $('input[name="feel"]:checked').val();
+				let myDiet = $('input[name="diet"]:checked').val();
+				let myName = $('input[name="petName"]').val();
+
+
+				let myTemplate = '';
+				let myPic = '';
+				let myPet = '';
+
+				if(mySize == 'small' && myFeel == 'furry' && myDiet == 'carrots'){
+					myPic = 'images/rabbit.jpg';
+					myPet = 'rabbit';
+				}else if(mySize == 'big' && myFeel == 'scaly' && myDiet == 'pets'){
+					myPic = 'images/velociraptor.jpg';
+					myPet = 'velociraptor';
+
+				}else{
+					alert('not rabbit!');
+				}
+
+				myTemplate = `
+				<p>Your pet is a ${myPet} named ${myName} and it is ${myFeel} and eats ${myDiet}!</p>
+				<img src="${myPic}" />`;
+				$('#myDiv').html(myTemplate);
+
+				
+				/*
+				var formData = $(this).serialize();
+				$.post('include/critter_handler.php', formData, function(data) {	
+					//alert(data);  //here's an alert if you wish to see the data upon return
+					$('#myDiv').html(data); //upon return load data into myDiv
+				}, 'html');
+				*/
+			});
+		});
+	</script>
+</head>
+
+<body>
+<h3 align="center">AJAX Pet Adoption Agency</h3>
+<div>
+	<form id="myForm">
+
+		<div id="question1">
+			<P>How big do you want your pet to be?</P>
+			<input type="radio" name="size" value="big" /> Big<br />
+			<input type="radio" name="size" value="small" /> Small<br />
+		</div>
+
+		<div id="question2">
+			<P>How big do you want your pet to be?</P>
+			<input type="radio" name="feel" value="furry" /> Furry<br />
+			<input type="radio" name="feel" value="scaly" /> Scaly<br />
+		</div>
+
+		<div id="question3">
+			<P>How big do you want your pet to feel?</P>
+			<input type="radio" name="diet" value="carrots" /> Carrots<br />
+			<input type="radio" name="diet" value="pets" /> Pets<br />
+		</div>
+
+		<div id="question3">
+			<P>What will you name your pet?</P>
+			<input type="text" name="petName" />
+		</div>
+
+	<!--  
+	<select name="critter">
+	<option value="bird">bird</option>
+	<option value="pig">pig</option>
+	<option value="rabbit">rabbit</option>
+	<option value="hedgehog">hedgehog</option>
+	</select>
+	-->
+	<input type="submit" value="get critter!" />	
+	</form>
+</div>
+<div id="myDiv">Here's a div with an id of <b>myDiv</b> that a bit of HTML in it!</div>
+</body>
+</html>
